@@ -1,60 +1,79 @@
 package vector_clock
 
-import "errors"
-
-type Causality int
-
-const (
-    EQUAL      Causality = iota
-    LESS
-    GREATER
-    CONCURRENT
+import (
+    "errors"
 )
 
 type VectorClock struct {
-    v []int
+    v  []int
+    id int
 }
 
-func NewVectorClock(size int) (*VectorClock) {
+func NewVectorClock(size, id int) (*VectorClock) {
     vec := new(VectorClock)
     vec.v = make([]int, size)
+    vec.id = id
     return vec
 }
 
-func (vec *VectorClock) Set(i, val int) (vec2 *VectorClock) {
-    vec.v[i] = val
-    return vec
+func (this *VectorClock) Set(i, val int) (*VectorClock) {
+    this.v[i] = val
+    return this
 }
 
-func (vec1 *VectorClock) Compare(vec2 *VectorClock) (Causality, error) {
-    if len(vec2.v) == len(vec1.v) {
+func (this *VectorClock) RecvMsg(that *VectorClock) error {
+    if len(this.v) == len(that.v) {
+        for i := range this.v {
+            if i == this.id {
+                this.v[i] += 1
+            } else {
+                this.v[i] = maxInt(this.v[i], that.v[i])
+            }
+        }
+        return nil
+    }
+    return errors.New("cannot compare vectors of unequal length")
+}
+
+
+func (this *VectorClock) Compare(vec2 *VectorClock) (string, error) {
+    if len(vec2.v) == len(this.v) {
         less := true
         greater := true
         equal := true
-        for i, val := range vec1.v {
-            if val > vec1.v[i] {
+        for i, val := range this.v {
+            if val > this.v[i] {
                 less = false
             }
-            if val < vec1.v[i] {
+            if val < this.v[i] {
                 greater = false
             }
-            if val != vec1.v[i] {
+            if val != this.v[i] {
                 equal = false
             }
         }
         if less && greater {
-            return CONCURRENT, nil
+            return "Concurrent", nil
         }
         if less {
-            return LESS, nil
+            return "Less", nil
         }
         if greater {
-            return GREATER, nil
+            return "Greater", nil
         }
         if equal {
-            return EQUAL, nil
+            return "Identical", nil
         }
-
     }
-    return 0, errors.New("cannot compare vectors of unequal length")
+    return "", errors.New("cannot compare vectors of unequal length")
+}
+
+/*
+Helper function to find max of ints
+ */
+func maxInt(a, b int) int {
+    if (a > b) {
+        return a
+    }
+    return b
 }
