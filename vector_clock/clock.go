@@ -16,11 +16,18 @@ func NewVectorClock(size, id int) (*VectorClock) {
     return vec
 }
 
-func (this *VectorClock) Set(i, val int) (*VectorClock) {
-    this.v[i] = val
+/*
+Increments a vector clocks internal value to account for work being done.
+ */
+func (this *VectorClock) Increment() (*VectorClock) {
+    this.v[this.id] += 1
     return this
 }
 
+/*
+Performs the updates required when a vector clock receives a message
+from another.
+ */
 func (this *VectorClock) RecvMsg(that *VectorClock) error {
     if len(this.v) == len(that.v) {
         for i := range this.v {
@@ -35,7 +42,9 @@ func (this *VectorClock) RecvMsg(that *VectorClock) error {
     return errors.New("cannot compare vectors of unequal length")
 }
 
-
+/*
+Compares a vector clock to another to determine causal ordering.
+ */
 func (this *VectorClock) Compare(vec2 *VectorClock) (string, error) {
     if len(vec2.v) == len(this.v) {
         less := true
