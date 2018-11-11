@@ -2,18 +2,21 @@ package vector_clock
 
 import (
     "errors"
+    "strconv"
+    "strings"
+    "fmt"
 )
 
 type VectorClock struct {
-    v  []int
-    id int
+    V  []int
+    Id int
 }
 
 func NewVectorClock(size, id int) (*VectorClock) {
     vec := new(VectorClock)
-    vec.v = make([]int, size)
-    vec.id = id
-    vec.v[id] = 1
+    vec.V = make([]int, size)
+    vec.Id = id
+    vec.V[id] = 1
     return vec
 }
 
@@ -21,7 +24,7 @@ func NewVectorClock(size, id int) (*VectorClock) {
 Increments a vector clocks internal value to account for work being done.
  */
 func (this *VectorClock) Increment() (*VectorClock) {
-    this.v[this.id] += 1
+    this.V[this.Id] += 1
     return this
 }
 
@@ -30,12 +33,12 @@ Performs the updates required when a vector clock receives a message
 from another.
  */
 func (this *VectorClock) SendMsg(that *VectorClock) error {
-    if len(this.v) == len(that.v) {
-        this.v[this.id] += 1
-        that.v[that.id] += 1
-        for i := range that.v {
-            if i != that.id {
-                that.v[i] = maxInt(this.v[i], that.v[i])
+    if len(this.V) == len(that.V) {
+        this.V[this.Id] += 1
+        that.V[that.Id] += 1
+        for i := range that.V {
+            if i != that.Id {
+                that.V[i] = maxInt(this.V[i], that.V[i])
             }
         }
         return nil
@@ -47,18 +50,18 @@ func (this *VectorClock) SendMsg(that *VectorClock) error {
 Compares a vector clock to another to determine causal ordering.
  */
 func (this *VectorClock) Compare(that *VectorClock) (string) {
-    if len(this.v) == len(that.v) {
+    if len(this.V) == len(that.V) {
         less := true
         greater := true
         equal := true
-        for i, val := range this.v {
-            if val > that.v[i] {
+        for i, val := range this.V {
+            if val > that.V[i] {
                 less = false
             }
-            if val < that.v[i] {
+            if val < that.V[i] {
                 greater = false
             }
-            if val != that.v[i] {
+            if val != that.V[i] {
                 equal = false
             }
         }
@@ -75,6 +78,16 @@ func (this *VectorClock) Compare(that *VectorClock) (string) {
 
     }
     return "Error: Cannot compare vectors of unequal length"
+}
+
+/*
+Pretty prints the vector.
+ */
+func (this *VectorClock) ToString() string {
+    output := strconv.Itoa(this.Id) + ":["
+    output += strings.Trim(strings.Join(strings.Fields(fmt.Sprint(this.V)), ","), "[]")
+    output += "]"
+    return output
 }
 
 /*
