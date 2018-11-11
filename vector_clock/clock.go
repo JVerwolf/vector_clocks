@@ -13,6 +13,7 @@ func NewVectorClock(size, id int) (*VectorClock) {
     vec := new(VectorClock)
     vec.v = make([]int, size)
     vec.id = id
+    vec.v[id] = 1
     return vec
 }
 
@@ -28,13 +29,13 @@ func (this *VectorClock) Increment() (*VectorClock) {
 Performs the updates required when a vector clock receives a message
 from another.
  */
-func (this *VectorClock) RecvMsg(that *VectorClock) error {
+func (this *VectorClock) SendMsg(that *VectorClock) error {
     if len(this.v) == len(that.v) {
-        for i := range this.v {
-            if i == this.id {
-                this.v[i] += 1
-            } else {
-                this.v[i] = maxInt(this.v[i], that.v[i])
+        this.v[this.id] += 1
+        that.v[that.id] += 1
+        for i := range that.v {
+            if i != that.id {
+                that.v[i] = maxInt(this.v[i], that.v[i])
             }
         }
         return nil
