@@ -66,15 +66,15 @@ func (this *VectorClock) Compare(that *VectorClock) (string) {
             }
         }
         if equal {
-            return "Identical"
+            return "Is Identical With"
         }
         if less {
-            return "Before"
+            return "Happened Before"
         }
         if greater {
-            return "After"
+            return "Happened After"
         }
-        return "Concurrent"
+        return "Is Concurrent With"
 
     }
     return "Error: Cannot compare vectors of unequal length"
