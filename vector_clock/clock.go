@@ -81,7 +81,7 @@ func (this *VectorClock) Compare(that *VectorClock) (string) {
 Helper function to find max of ints
  */
 func maxInt(a, b int) int {
-    if (a > b) {
+    if a > b {
         return a
     }
     return b
