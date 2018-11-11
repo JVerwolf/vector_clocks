@@ -46,36 +46,35 @@ func (this *VectorClock) SendMsg(that *VectorClock) error {
 /*
 Compares a vector clock to another to determine causal ordering.
  */
-func (this *VectorClock) Compare(vec2 *VectorClock) (string, error) {
-    if len(vec2.v) == len(this.v) {
+func (this *VectorClock) Compare(that *VectorClock) (string) {
+    if len(this.v) == len(that.v) {
         less := true
         greater := true
         equal := true
         for i, val := range this.v {
-            if val > this.v[i] {
+            if val > that.v[i] {
                 less = false
             }
-            if val < this.v[i] {
+            if val < that.v[i] {
                 greater = false
             }
-            if val != this.v[i] {
+            if val != that.v[i] {
                 equal = false
             }
         }
-        if less && greater {
-            return "Concurrent", nil
+        if equal {
+            return "Identical"
         }
         if less {
-            return "Less", nil
+            return "Before"
         }
         if greater {
-            return "Greater", nil
+            return "After"
         }
-        if equal {
-            return "Identical", nil
-        }
+        return "Concurrent"
+
     }
-    return "", errors.New("cannot compare vectors of unequal length")
+    return "Error: Cannot compare vectors of unequal length"
 }
 
 /*
