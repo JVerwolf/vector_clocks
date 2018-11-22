@@ -8,8 +8,12 @@ import (
 func main() {
     vec := initVectors(3)
     printState(vec)
-    printSendMessage(vec[1], vec[2])
+    printSendMessage(vec[2], vec[1])
+    printSendMessage(vec[0], vec[1])
     printDoWork(vec[0])
+    printDoWork(vec[2])
+    printSendMessage(vec[1], vec[0])
+    printSendMessage(vec[0], vec[2])
     printCompare(vec[0], vec[1])
 
 }
