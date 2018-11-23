@@ -8,18 +8,28 @@ import (
 func main() {
     vec := initVectors(3)
     printState(vec)
+
+    initialVecs := copyVectors(vec)
+
+    printCompare(vec[0], vec[1])
+    printCompare(vec[1], vec[2])
+    printCompare(vec[2], vec[0])
+
     printSendMessage(vec[2], vec[1])
     printSendMessage(vec[0], vec[1])
-    printDoWork(vec[0])
-    printDoWork(vec[2])
-    printSendMessage(vec[1], vec[0])
-    printSendMessage(vec[0], vec[2])
+
     printCompare(vec[0], vec[1])
 
+    printDoWork(vec[0])
+    printDoWork(vec[2])
+
+    printCompare(vec[0], vec[1])
+
+    printSendMessage(vec[0], vec[2])
 }
 
 func printCompare(v1, v2 *vector_clock.VectorClock) {
-    output := "Compare Vector "  + strconv.Itoa(v1.Id) + " with " + strconv.Itoa(v2.Id) +":\n"
+    output := "Compare Vector " + strconv.Itoa(v1.Id) + " with " + strconv.Itoa(v2.Id) + ":\n"
     output += v1.ToString() + "\n"
     output += v1.Compare(v2) + "\n"
     output += v2.ToString() + "\n"
