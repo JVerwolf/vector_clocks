@@ -12,6 +12,9 @@ type VectorClock struct {
     Id int
 }
 
+/*
+"Constructor" for initializing a new VectorClock struct.
+ */
 func NewVectorClock(size, id int) (*VectorClock) {
     vec := new(VectorClock)
     vec.V = make([]int, size)
@@ -93,7 +96,7 @@ func (this *VectorClock) ToString() string {
 /*
 Performs a deep copy of the VectorClock.
  */
-func (this *VectorClock) Copy() ( *VectorClock) {
+func (this *VectorClock) Copy() (*VectorClock) {
     newVec := *this
     newVec.V = make([]int, len(this.V))
     copy(newVec.V, this.V)
