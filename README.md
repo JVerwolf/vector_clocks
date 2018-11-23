@@ -68,12 +68,12 @@ shown in the diagram at positions D and E:
 printSendMessage(vec[2], vec[1])
 // Sending Message from 2 to 1:
 // Before:    2:[0,0,1], 1:[0,1,0]
-// After:    2:[0,0,2], 1:[0,2,2]
+// After:     2:[0,0,2], 1:[0,2,2]
 
 printSendMessage(vec[0], vec[1])
 // Sending Message from 0 to 1:
 // Before:    0:[1,0,0], 1:[0,2,2]
-// After:    0:[2,0,0], 1:[2,3,2]
+// After:     0:[2,0,0], 1:[2,3,2]
 ```
 
 Points G and E should now be causally related:
@@ -91,12 +91,12 @@ done at H and I in the diagram:
 printDoWork(vec[0])
 // Vector Clock 0 Does work Work:
 // Before: 0:[2,0,0]
-// After: 0:[3,0,0]
+// After:  0:[3,0,0]
 
 printDoWork(vec[2])
 // Vector Clock 2 Does work Work:
 // Before: 2:[0,0,2]
-// After: 2:[0,0,3]
+// After:  2:[0,0,3]
 ```
 
 As a sanity check, we’ll check the causal 
@@ -117,7 +117,7 @@ at position L:
 printSendMessage(vec[0], vec[2])
 // Sending Message from 0 to 2:
 // Before:    0:[3,0,0], 2:[0,0,3]
-// After:    0:[4,0,0], 2:[4,0,4]
+// After:     0:[4,0,0], 2:[4,0,4]
 ```
 
 Finally, let’s check the causality in the blue 
