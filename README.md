@@ -2,12 +2,12 @@
 Vector clocks are used to determine causal relationships
 that can exist between multiple processes.  
 
-The following diagram shows 3 processes, as indicated by 
-horizontal grey lines. When a processes interacts with 
-another (by passing information), this communication forms 
-a causal linkage.  These causal linkages are indicated 
-on the following diagram by the diagonal lines drawn 
-between processes.
+To illustrate, the following diagram shows 3 processes, 
+as indicated by horizontal grey lines. When a processes 
+interacts with another (by passing information), this 
+communication forms a causal linkage.  These causal 
+linkages are indicated on the following diagram by the 
+diagonal lines drawn between processes.
 
 ![Alt text](Diagram.png)
 
