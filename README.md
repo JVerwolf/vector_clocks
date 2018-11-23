@@ -26,9 +26,9 @@ demonstration purposes.
 
 ## Example
 This section will walk through the code from the main 
-function, and showing how vector clocks can be used 
-to encode the causal relationship shown in the 
-diagram above.
+function, showing how vector clocks can be used to 
+encode the causal relationship shown in the diagram 
+above.
 
 First, we’ll initialize vector clocks each of the 
 3 processes, and save copies for later comparison:
