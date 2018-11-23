@@ -26,6 +26,20 @@ func main() {
     printCompare(vec[0], vec[1])
 
     printSendMessage(vec[0], vec[2])
+
+    printCompare(vec[0], initialVecs[0])
+    printCompare(vec[0], initialVecs[2])
+}
+
+/*
+Deep copy an array of vector clocks.
+ */
+func copyVectors(vec []*vector_clock.VectorClock) (newVec []*vector_clock.VectorClock) {
+    newVec = make([]*vector_clock.VectorClock, len(vec))
+    for i, v := range vec {
+        newVec[i] = v.Copy()
+    }
+    return
 }
 
 func printCompare(v1, v2 *vector_clock.VectorClock) {

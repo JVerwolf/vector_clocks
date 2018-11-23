@@ -91,6 +91,16 @@ func (this *VectorClock) ToString() string {
 }
 
 /*
+Performs a deep copy of the VectorClock.
+ */
+func (this *VectorClock) Copy() ( *VectorClock) {
+    newVec := *this
+    newVec.V = make([]int, len(this.V))
+    copy(newVec.V, this.V)
+    return &newVec
+}
+
+/*
 Helper function to find max of ints
  */
 func maxInt(a, b int) int {
