@@ -1,4 +1,4 @@
-#Vector Clocks
+# Vector Clocks
 Vector clocks are used to determine causal relationships
 that can exist between multiple processes.  
 
@@ -24,7 +24,7 @@ the vector clock implementation logic. The
 the above diagram in a declarative format for 
 demonstration purposes.
 
-##Demo
+## Example
 This section will walk through the code from the main 
 function, and showing how vector clocks can be used 
 to encode the causal relationship shown in the 
