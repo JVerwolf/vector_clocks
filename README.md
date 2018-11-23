@@ -5,7 +5,7 @@ that can exist between multiple processes.
 The following diagram shows 3 processes, as indicated by 
 horizontal grey lines. When a processes interacts with 
 another (by passing information), this communication forms 
-a causal dependency.  This causal dependency is indicated 
+a causal linkage.  This causal linkage is indicated 
 on the following diagram by the diagonal lines drawn 
 between the processes.
 
@@ -32,7 +32,7 @@ diagram above.
 
 First, we’ll initialize vector clocks each of the 
 3 processes, and save copies for later comparison:
-```python
+```go
 >>> vec := initVectors(3)
 >>> initialVecs := copyVectors(vec)
 >>> printState(vec)
@@ -42,7 +42,7 @@ State of all Vector Clocks:
 2:[0,0,1]
 ```
 Let’s check the causal relationships between the vectors:
-```python
+```go
 
 >>> printCompare(vec[0], vec[1])
 Compare Vector 0 with 1:
@@ -65,7 +65,7 @@ Is Concurrent With
 
 Next, we’ll send messages between between processes, 
 shown in the diagram at positions D and E:
-```python
+```go
 >>> printSendMessage(vec[2], vec[1])
 Sending Message from 2 to 1:
 Before:    2:[0,0,1], 1:[0,1,0]
@@ -78,7 +78,7 @@ After:    0:[2,0,0], 1:[2,3,2]
 ```
 
 Points G and E should now be causally related:
-```python
+```go
 >>> printCompare(vec[0], vec[1])
 Compare Vector 0 with 1:
 0:[2,0,0]
@@ -88,7 +88,7 @@ Happened Before
 
 Let’s show how the vector clocks encode the “work” 
 done at H and I in the diagram:
-```python
+```go
 >>> printDoWork(vec[0])
 Vector Clock 0 Does work Work:
 Before: 0:[2,0,0]
@@ -104,7 +104,7 @@ As a sanity check, we’ll check the causal
 relationship between points G and H, as 
 shown in the diagram above.  They should be 
 causally concurrent:
-```python
+```go
 >>> printCompare(vec[0], vec[1])
 Compare Vector 0 with 1:
 0:[1,0,0]
@@ -114,7 +114,7 @@ Is Concurrent With
 
 Next, we’ll send the final message, shown 
 at position L:
-```python
+```go
 >>> printSendMessage(vec[0], vec[2])
 Sending Message from 0 to 2:
 Before:    0:[3,0,0], 2:[0,0,3]
@@ -124,7 +124,7 @@ After:    0:[4,0,0], 2:[4,0,4]
 Finally, let’s check the causality in the blue 
 path. As shown in the diagram, position N should 
 depend on position C, but not A. 
-```python
+```go
 >>> printCompare(vec[0], initialVecs[0])
 Compare Vector 0 with 0:
 0:[4,0,0]
