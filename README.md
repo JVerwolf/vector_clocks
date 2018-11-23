@@ -33,71 +33,70 @@ above.
 First, we’ll initialize vector clocks each of the 
 3 processes, and save copies for later comparison:
 ```go
->>> vec := initVectors(3)
->>> initialVecs := copyVectors(vec)
->>> printState(vec)
-State of all Vector Clocks:
-0:[1,0,0]
-1:[0,1,0]
-2:[0,0,1]
+vec := initVectors(3)
+initialVecs := copyVectors(vec)
+printState(vec)
+// State of all Vector Clocks:
+// 0:[1,0,0]
+// 1:[0,1,0]
+// 2:[0,0,1]
 ```
 Let’s check the causal relationships between the vectors:
 ```go
+printCompare(vec[0], vec[1])
+// Compare Vector 0 with 1:
+// 0:[1,0,0]
+// Is Concurrent With
+// 1:[0,1,0]
 
->>> printCompare(vec[0], vec[1])
-Compare Vector 0 with 1:
-0:[1,0,0]
-Is Concurrent With
-1:[0,1,0]
+printCompare(vec[1], vec[2])
+// Compare Vector 1 with 2:
+// 1:[0,1,0]
+// Is Concurrent With
+// 2:[0,0,1]
 
->>> printCompare(vec[1], vec[2])
-Compare Vector 1 with 2:
-1:[0,1,0]
-Is Concurrent With
-2:[0,0,1]
-
->>> printCompare(vec[2], vec[0])
-Compare Vector 2 with 0:
-2:[0,0,1]
-Is Concurrent With
-0:[1,0,0]
+printCompare(vec[2], vec[0])
+// Compare Vector 2 with 0:
+// 2:[0,0,1]
+// Is Concurrent With
+// 0:[1,0,0]
 ```
 
 Next, we’ll send messages between between processes, 
 shown in the diagram at positions D and E:
 ```go
->>> printSendMessage(vec[2], vec[1])
-Sending Message from 2 to 1:
-Before:    2:[0,0,1], 1:[0,1,0]
-After:    2:[0,0,2], 1:[0,2,2]
+printSendMessage(vec[2], vec[1])
+// Sending Message from 2 to 1:
+// Before:    2:[0,0,1], 1:[0,1,0]
+// After:    2:[0,0,2], 1:[0,2,2]
 
->>> printSendMessage(vec[0], vec[1])
-Sending Message from 0 to 1:
-Before:    0:[1,0,0], 1:[0,2,2]
-After:    0:[2,0,0], 1:[2,3,2]
+printSendMessage(vec[0], vec[1])
+// Sending Message from 0 to 1:
+// Before:    0:[1,0,0], 1:[0,2,2]
+// After:    0:[2,0,0], 1:[2,3,2]
 ```
 
 Points G and E should now be causally related:
 ```go
->>> printCompare(vec[0], vec[1])
-Compare Vector 0 with 1:
-0:[2,0,0]
-Happened Before
-1:[2,3,2]
+printCompare(vec[0], vec[1])
+// Compare Vector 0 with 1:
+// 0:[2,0,0]
+// Happened Before
+// 1:[2,3,2]
 ```
 
 Let’s show how the vector clocks encode the “work” 
 done at H and I in the diagram:
 ```go
->>> printDoWork(vec[0])
-Vector Clock 0 Does work Work:
-Before: 0:[2,0,0]
-After: 0:[3,0,0]
+printDoWork(vec[0])
+// Vector Clock 0 Does work Work:
+// Before: 0:[2,0,0]
+// After: 0:[3,0,0]
 
->>> printDoWork(vec[2])
-Vector Clock 2 Does work Work:
-Before: 2:[0,0,2]
-After: 2:[0,0,3]
+printDoWork(vec[2])
+// Vector Clock 2 Does work Work:
+// Before: 2:[0,0,2]
+// After: 2:[0,0,3]
 ```
 
 As a sanity check, we’ll check the causal 
@@ -105,37 +104,37 @@ relationship between points G and H, as
 shown in the diagram above.  They should be 
 causally concurrent:
 ```go
->>> printCompare(vec[0], vec[1])
-Compare Vector 0 with 1:
-0:[1,0,0]
-Is Concurrent With
-1:[0,1,0]
+printCompare(vec[0], vec[1])
+// Compare Vector 0 with 1:
+// 0:[1,0,0]
+// Is Concurrent With
+// 1:[0,1,0]
 ```
 
 Next, we’ll send the final message, shown 
 at position L:
 ```go
->>> printSendMessage(vec[0], vec[2])
-Sending Message from 0 to 2:
-Before:    0:[3,0,0], 2:[0,0,3]
-After:    0:[4,0,0], 2:[4,0,4]
+printSendMessage(vec[0], vec[2])
+// Sending Message from 0 to 2:
+// Before:    0:[3,0,0], 2:[0,0,3]
+// After:    0:[4,0,0], 2:[4,0,4]
 ```
 
 Finally, let’s check the causality in the blue 
 path. As shown in the diagram, position N should 
 depend on position C, but not A. 
 ```go
->>> printCompare(vec[0], initialVecs[0])
-Compare Vector 0 with 0:
-0:[4,0,0]
-Happened After
-0:[1,0,0]
+printCompare(vec[0], initialVecs[0])
+// Compare Vector 0 with 0:
+// 0:[4,0,0]
+// Happened After
+// 0:[1,0,0]
 
->>> printCompare(vec[0], initialVecs[2])
-Compare Vector 0 with 2:
-0:[4,0,0]
-Is Concurrent With
-2:[0,0,1]
+printCompare(vec[0], initialVecs[2])
+// Compare Vector 0 with 2:
+// 0:[4,0,0]
+// Is Concurrent With
+// 2:[0,0,1]
 ```
 
 
