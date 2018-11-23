@@ -80,7 +80,7 @@ func printState(vec []*vector_clock.VectorClock) {
 Print a formatted description of incrementing a vector.
  */
 func printDoWork(v *vector_clock.VectorClock) {
-    output := "Vector Clock " + strconv.Itoa(v.Id) + " Does work Work:\n"
+    output := "Vector Clock " + strconv.Itoa(v.Id) + " Does Work:\n"
     output += "Before: " + v.ToString() + "\n"
     v.Increment()
     output += "After: " + v.ToString() + "\n"

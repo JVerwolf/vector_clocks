@@ -89,12 +89,12 @@ Let’s show how the vector clocks encode the “work”
 done at H and I in the diagram:
 ```go
 printDoWork(vec[0])
-// Vector Clock 0 Does work Work:
+// Vector Clock 0 Does Work:
 // Before: 0:[2,0,0]
 // After:  0:[3,0,0]
 
 printDoWork(vec[2])
-// Vector Clock 2 Does work Work:
+// Vector Clock 2 Does Work:
 // Before: 2:[0,0,2]
 // After:  2:[0,0,3]
 ```
