@@ -5,9 +5,9 @@ that can exist between multiple processes.
 The following diagram shows 3 processes, as indicated by 
 horizontal grey lines. When a processes interacts with 
 another (by passing information), this communication forms 
-a causal linkage.  This causal linkage is indicated 
+a causal linkage.  These causal linkages are indicated 
 on the following diagram by the diagonal lines drawn 
-between the processes.
+between processes.
 
 ![Alt text](Diagram.png)
 
